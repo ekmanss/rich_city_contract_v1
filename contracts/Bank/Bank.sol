@@ -367,7 +367,7 @@ contract Bank is Ownable, IERC721Receiver, Pauseable {
             poolValue: 0
         });
         _updateEarnings(tokenId);
-        totalGangsterStaked += 1;
+        totalGangsterStaked += 1; //进入 此组
         emit TokenStaked(account, tokenId, block.timestamp);
     }
 
@@ -379,8 +379,8 @@ contract Bank is Ownable, IERC721Receiver, Pauseable {
         uint256 alpha = _alphaForLEAD(tokenId);
         totalLEADAlpha += alpha;
         totalLEADStaked += 1;
-        packLEADIndices[tokenId] = packLEAD[alpha].length;
-        packLEAD[alpha].push(
+        packLEADIndices[tokenId] = packLEAD[alpha].length; //记录 进入时此分数组人数
+        packLEAD[alpha].push(  //进入 此分数组
             Stake({
                 owner: account,
                 tokenId: uint16(tokenId),
@@ -396,11 +396,11 @@ contract Bank is Ownable, IERC721Receiver, Pauseable {
         whenNotPaused
         _updateEarningsSWAT
     {
-        uint256 alpha = _alphaForSWAT(tokenId);
-        totalSWATAlpha += alpha;
-        totalSWATStaked += 1;
-        packIndices[tokenId] = pack[alpha].length;
-        pack[alpha].push(
+        uint256 alpha = _alphaForSWAT(tokenId);  //获取 SWAT 分数
+        totalSWATAlpha += alpha;  //increase total SWAT alpha
+        totalSWATStaked += 1;   //increase total staked SWAT
+        packIndices[tokenId] = pack[alpha].length;   //记录 进入前 此分数组人数
+        pack[alpha].push( //进入 此分数组
             Stake({
                 owner: account,
                 tokenId: uint16(tokenId),
@@ -735,7 +735,7 @@ contract Bank is Ownable, IERC721Receiver, Pauseable {
             return;
         }
         // makes sure to include any unaccounted $CASH
-        cashLEADPool += (amount + unaccountedRewardsLEAD) / totalLEADAlpha;
+        cashLEADPool += (amount + unaccountedRewardsLEAD) / totalLEADAlpha;  //每分对应获得代币
         unaccountedRewardsLEAD = 0;
     }
 
