@@ -2038,11 +2038,12 @@ contract RichcityNFT is ERC721Enumerable, Ownable {
         userReward[msg.sender] = 0;
     }
 
+    //根据给的代币数量有不同的成功机率，花费的剩余代币返还
     function upgrade(uint16[] calldata tokenIds) external {
         for (uint256 id = 0; id < tokenIds.length; id++) {
             require(ownerOf(tokenIds[id]) == msg.sender);
             RichCity storage t = tokenTraits[tokenIds[id]];
-            require((t.isGangster && t.level < 5) || t.level < 3);
+            require((t.isGangster && t.level < 5) || t.level < 3); //升级条件：匪徒等级必须小于5，其它小于3
             if (t.isGangster && t.level == 3) {
                 upgradeGenerate(tokenIds[id], random(minted));
                 LEADMinted++;
